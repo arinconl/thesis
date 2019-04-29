@@ -37,7 +37,7 @@ CORS(app)
 SCULPTURES = [
 	{
 		'id': uuid.uuid4().hex,
-		'name': 'Flower 1',
+		'name': 'Flower Petal',
 		'target_frequencies': [
 			220,
 			275,

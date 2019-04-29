@@ -5,7 +5,7 @@
         <h1>sculptures</h1>
         <hr><br><br>
         <alert :message=message v-if="showMessage"></alert>
-        <button type="button" class="btn btn-success btn-sm" v-b-modal.sculpture-modal>Add sculpture</button>
+        <!-- <button type="button" class="btn btn-success btn-sm" v-b-modal.sculpture-modal>Add sculpture</button> -->
         <br><br>
         <div>
           <div
@@ -32,7 +32,11 @@
             </div>
             <div class="card-body">
               <h4 class="card-title">{{ sculpture.name }}</h4>
-              <h5 class="card-title">{{ sculpture.target_frequencies }}</h5>
+              <h5 class="card-title">Target Frequencies</h5>
+              <p class="card-text">Frequencies: {{ sculpture.target_frequencies }}</p>
+              <h5 class="card-title">Results</h5>
+              <p class="card-text">Fit: {{ sculpture.results_store.fit }}</p>
+              <p class="card-text">Frequencies: {{ sculpture.results_store.frequencies }}</p>
               <h6 class="card-title">Material</h6>
               <p class="card-text">Gauge {{ sculpture.material_params.gauge }}, {{ sculpture.material_params.material }} ({{ sculpture.material_params.density }} density)</p>
               <p class="card-text"> Mechanical Properties: {{ sculpture.material_params.modulus }}, {{ sculpture.material_params.ratio }}</p>
