@@ -7,19 +7,13 @@
         <alert :message=message v-if="showMessage"></alert>
         <button type="button" class="btn btn-success btn-sm" v-b-modal.sculpture-modal>Add sculpture</button>
         <br><br>
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th scope="col">Name</th>
-              <th scope="col">Targets</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(sculpture, index) in sculptures" :key="index">
-              <td>{{ sculpture.name }}</td>
-              <td>{{ sculpture.target_frequencies }}</td>
-              <td>
+        <div>
+          <div
+            v-for="(sculpture, index) in sculptures" :key="index"
+            class="card text-center"
+            style="margin-bottom: 2em;">
+            <div class="card-header">
+              <ul class="nav nav-pills card-header-pills justify-content-end">
                 <button
                         type="button"
                         class="btn btn-warning btn-sm"
@@ -27,16 +21,59 @@
                         @click="editSculpture(sculpture)">
                     Update
                 </button>
+                <span style="width:1em"></span>
                 <button
                         type="button"
                         class="btn btn-danger btn-sm"
                         @click="onDeleteSculpture(sculpture)">
                     Delete
                 </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+              </ul>
+            </div>
+            <div class="card-body">
+              <h4 class="card-title">{{ sculpture.name }}</h4>
+              <h5 class="card-title">{{ sculpture.target_frequencies }}</h5>
+              <h6 class="card-title">Material</h6>
+              <p class="card-text">Gauge {{ sculpture.material_params.gauge }}, {{ sculpture.material_params.material }} ({{ sculpture.material_params.density }} density)</p>
+              <p class="card-text"> Mechanical Properties: {{ sculpture.material_params.modulus }}, {{ sculpture.material_params.ratio }}</p>
+              <button
+                      type="button"
+                      class="btn btn-primary"
+                      @click="getSculpturePetal(sculpture.id)">
+                  Generate Petal
+              </button>
+              <button
+                      type="button"
+                      class="btn btn-primary"
+                      @click="getSculptureFrequencies(sculpture.id)">
+                  Check Frequencies
+              </button>
+              <button
+                      type="button"
+                      class="btn btn-primary"
+                      @click="getSculptureOptimize(sculpture.id)">
+                  Optimize Petal
+              </button>
+            </div>
+            <div class="card-footer">
+              <ul class="nav nav-pills card-header-pills justify-content-end">
+                <button
+                        type="button"
+                        class="btn btn-secondary btn-sm"
+                        @click="getSculptureDXF(sculpture.id)">
+                    Download DXF
+                </button>
+                <span style="width:1em"></span>
+                <button
+                        type="button"
+                        class="btn btn-secondary btn-sm"
+                        @click="getSculpturePDF(sculpture.id)">
+                    Download PDF
+                </button>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <b-modal ref="addSculptureModal"
@@ -103,6 +140,8 @@
 <script>
 import axios from 'axios'
 import Alert from './Alert'
+const fileDownload = require('js-file-download')
+var serverHost = 'http://192.168.99.100:5000'
 
 export default {
   data () {
@@ -126,7 +165,7 @@ export default {
   },
   methods: {
     getSculptures () {
-      const path = 'http://192.168.99.100:5000/sculptures'
+      const path = `${serverHost}/sculptures`
       axios.get(path)
         .then((res) => {
           this.sculptures = res.data.sculptures
@@ -136,8 +175,71 @@ export default {
           console.error(error)
         })
     },
+    getSculpturePetal (sculptureID) {
+      const path = `${serverHost}/sculptures/${sculptureID}/generate_petal`
+      console.log(`request: ${path}`)
+      console.log(`request-type: generate_petal`)
+      axios.get(path)
+        .then((res) => {
+          console.log('contact with petal')
+        })
+        .catch((error) => {
+          // eslint-disable-next-line
+          console.error(error)
+        })
+    },
+    getSculptureFrequencies (sculptureID) {
+      const path = `${serverHost}/sculptures/${sculptureID}/check_current_frequencies`
+      console.log(`request: ${path}`)
+      console.log(`request-type: check_current_frequencies`)
+      axios.get(path)
+        .then((res) => {
+          console.log('contact with frequencies')
+        })
+        .catch((error) => {
+          // eslint-disable-next-line
+          console.error(error)
+        })
+    },
+    getSculptureOptimize (sculptureID) {
+      const path = `${serverHost}/sculptures/${sculptureID}/optimize`
+      console.log(`request: ${path}`)
+      console.log(`request-type: optimize`)
+      axios.get(path)
+        .then((res) => {
+          console.log('contact with optimize')
+        })
+        .catch((error) => {
+          // eslint-disable-next-line
+          console.error(error)
+        })
+    },
+    getSculptureDXF (sculptureID) {
+      const path = `${serverHost}/sculptures/${sculptureID}/get_dxf`
+      axios.get(path)
+        .then((res) => {
+          console.log('contact with dxf')
+          fileDownload(res.data, 'test.dxf')
+        })
+        .catch((error) => {
+          // eslint-disable-next-line
+          console.error(error)
+        })
+    },
+    getSculpturePDF (sculptureID) {
+      const path = `${serverHost}/sculptures/${sculptureID}/get_pdf`
+      axios.get(path)
+        .then((res) => {
+          console.log('contact with pdf')
+          fileDownload(res.data, 'test.pdf')
+        })
+        .catch((error) => {
+          // eslint-disable-next-line
+          console.error(error)
+        })
+    },
     addSculpture (payload) {
-      const path = 'http://192.168.99.100:5000/sculptures'
+      const path = `${serverHost}/sculptures`
       axios.post(path, payload)
         .then(() => {
           this.getSculptures()
@@ -151,7 +253,7 @@ export default {
         })
     },
     updateSculpture (payload, sculptureID) {
-      const path = `http://192.168.99.100:5000/sculptures/${sculptureID}`
+      const path = `${serverHost}/sculptures/${sculptureID}`
       axios.put(path, payload)
         .then(() => {
           this.getSculptures()
@@ -165,7 +267,7 @@ export default {
         })
     },
     removeSculpture (sculptureID) {
-      const path = `http://192.168.99.100:5000/sculptures/${sculptureID}`
+      const path = `${serverHost}/sculptures/${sculptureID}`
       axios.delete(path)
         .then(() => {
           this.getSculptures()
@@ -190,7 +292,7 @@ export default {
       this.$refs.addSculptureModal.hide()
       const payload = {
         name: this.addSculptureForm.name,
-        target_frequencies: (this.addSculptureForm.target_frequencies).split(',').map(Number)
+        target_frequencies: ((this.addSculptureForm.target_frequencies).split(',').map(Number)).sort()
       }
       this.addSculpture(payload)
       this.initForm()
@@ -200,7 +302,7 @@ export default {
       this.$refs.editSculptureModal.hide()
       const payload = {
         name: this.editForm.name,
-        target_frequencies: (this.editForm.target_frequencies).split(',').map(Number)
+        target_frequencies: ((this.editForm.target_frequencies).split(',').map(Number)).sort()
       }
       this.updateSculpture(payload, this.editForm.id)
     },

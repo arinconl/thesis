@@ -119,7 +119,7 @@ SCULPTURES = [
 			"num_points_upper": 3,
 			"num_points_lower": 4,
 			"num_points": (3 + 4),
-			"width_scale": 0.25,
+			"width_scale": 0.30,
 			"length_upper": 0.60,
 			"length_lower": 0.40,
 			"length": 1000,

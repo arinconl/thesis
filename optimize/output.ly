@@ -7,11 +7,11 @@
   {
   <<
   \new Staff = "up" {
-    s4 s4 s4 s4 s4 s4 s4 ees'^\markup { 27 } f'_\markup { -13 } g'_\markup { -31 } bes'_\markup { -28 } b'^\markup { 15 } des''^\markup { 16 } e''^\markup { 6 } g''_\markup { -12 } aes''_\markup { -15 } a''_\markup { -41 } bes''_\markup { -46 } bes''^\markup { 7 } 
+    s4 s4 s4 s4 s4 s4 des'^\markup { 9 } f'_\markup { -23 } ges'^\markup { 8 } aes'_\markup { -6 } c''_\markup { -10 } d''^\markup { 13 } ees''_\markup { -34 } f''_\markup { -50 } g''_\markup { -25 } a''^\markup { 30 } b''^\markup { 38 } c'''^\markup { 11 } d'''_\markup { -8 } ees'''^\markup { 46 } 
   }
   \new Staff = "down" {
     \clef bass {
-      e,,_\markup { -4 } b,,^\markup { 4 } ees,^\markup { 44 } des^\markup { 15 } d_\markup { -2 } a^\markup { 49 } bes^\markup { 17 } s4 s4 s4 s4 s4 s4 s4 s4 s4 s4 s4 s4 
+      e,,,^\markup { 42 } b,,^\markup { 3 } ges,^\markup { 25 } b,^\markup { 32 } ees_\markup { -28 } a^\markup { 19 } s4 s4 s4 s4 s4 s4 s4 s4 s4 s4 s4 s4 s4 s4 
     }
   }
   >>
@@ -23,14 +23,14 @@
   {
   <<
   \new Staff = "up" {
-    s1 e''4^\markup { 6 } \bar "|."
-e''1^\markup { 6 } s4 \bar "|."
+    c''1_\markup { -10 } c'''4^\markup { 11 } \bar "|."
+c'''1^\markup { 11 } c''4_\markup { -10 } \bar "|."
 
   }
   \new Staff = "down" {
     \clef bass {
-      e,,1_\markup { -4 } s4 \bar "|."
-s1 e,,4_\markup { -4 } \bar "|."
+      s1 s4 \bar "|."
+s1 s4 \bar "|."
 
     }
   }
@@ -43,28 +43,42 @@ s1 e,,4_\markup { -4 } \bar "|."
   {
   <<
   \new Staff = "up" {
-    s1 aes''4_\markup { -15 } \bar "|."
-s1 des''4^\markup { 16 } \bar "|."
-s1 des''4^\markup { 16 } \bar "|."
-s1 bes'4_\markup { -28 } bes''4_\markup { -46 } \bar "|."
-s1 bes''4^\markup { 7 } \bar "|."
-g'1_\markup { -31 } g''4_\markup { -12 } \bar "|."
-bes'1_\markup { -28 } bes''4_\markup { -46 } \bar "|."
-bes''1_\markup { -46 } bes''4^\markup { 7 } \bar "|."
-bes''1^\markup { 7 } bes''4_\markup { -46 } \bar "|."
+    s1 ges'4^\markup { 8 } f''4_\markup { -50 } c'''4^\markup { 11 } \bar "|."
+s1 des'4^\markup { 9 } \bar "|."
+s1 b''4^\markup { 38 } \bar "|."
+s1 ees''4_\markup { -34 } \bar "|."
+s1 a''4^\markup { 30 } \bar "|."
+f'1_\markup { -23 } f''4_\markup { -50 } \bar "|."
+c''1_\markup { -10 } c'''4^\markup { 11 } \bar "|."
+d''1^\markup { 13 } ees''4_\markup { -34 } d'''4_\markup { -8 } \bar "|."
+ees''1_\markup { -34 } d''4^\markup { 13 } \bar "|."
+f''1_\markup { -50 } s4 \bar "|."
+g''1_\markup { -25 } s4 \bar "|."
+a''1^\markup { 30 } s4 \bar "|."
+b''1^\markup { 38 } s4 \bar "|."
+c'''1^\markup { 11 } s4 \bar "|."
+d'''1_\markup { -8 } s4 \bar "|."
+ees'''1^\markup { 46 } s4 \bar "|."
 
   }
   \new Staff = "down" {
     \clef bass {
-      e,,1_\markup { -4 } s4 \bar "|."
-ees,1^\markup { 44 } s4 \bar "|."
-des1^\markup { 15 } s4 \bar "|."
-a1^\markup { 49 } s4 s4 \bar "|."
-bes1^\markup { 17 } s4 \bar "|."
+      b,,1^\markup { 3 } s4 s4 s4 \bar "|."
+ges,1^\markup { 25 } s4 \bar "|."
+b,1^\markup { 32 } s4 \bar "|."
+ees1_\markup { -28 } s4 \bar "|."
+a1^\markup { 19 } s4 \bar "|."
 s1 s4 \bar "|."
 s1 s4 \bar "|."
+s1 s4 s4 \bar "|."
 s1 s4 \bar "|."
-s1 s4 \bar "|."
+s1 e,,,4^\markup { 42 } \bar "|."
+s1 e,,,4^\markup { 42 } \bar "|."
+s1 e,,,4^\markup { 42 } \bar "|."
+s1 e,,,4^\markup { 42 } \bar "|."
+s1 e,,,4^\markup { 42 } \bar "|."
+s1 e,,,4^\markup { 42 } \bar "|."
+s1 e,,,4^\markup { 42 } \bar "|."
 
     }
   }
