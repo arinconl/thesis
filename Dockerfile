@@ -69,13 +69,14 @@ RUN apt-add-repository universe \
 	&& apt-get install --yes lilypond \
 	&& rm -rf /var/lib/apt/lists/*
 
-# Attach our code copied
-ADD optimize /opt/optimize
-WORKDIR /opt/optimize
-
 # Install python dependencies
 ADD requirements.txt .
 RUN pip3 install --no-cache-dir -r requirements.txt
+
+# Attach our code copied
+ADD dist /opt/dist
+ADD optimize /opt/optimize
+WORKDIR /opt/optimize
 
 EXPOSE 5000
 

@@ -1,7 +1,8 @@
 # Python imports
 import os, sys, time, uuid, json, subprocess
+from random import *
 # Flask imports
-from flask import Flask, jsonify, request, Response, send_file
+from flask import Flask, jsonify, request, Response, send_file, render_template
 # CORS imports (enables api-like interaction)
 from flask_cors import CORS, cross_origin
 # Requests (python 'axios')
@@ -254,17 +255,22 @@ def retrieve_sculpture(sculpture_id):
 
 @app.route('/boop')
 def boop():
+	# 'heartbeat'
 	return jsonify('boop!')
+
+@app.route('/api/random')
+def random_number():
+	res = {
+		'randomNumber': randint(1, 100)
+	}
+
+	return jsonify(res)
+
 
 
 #==============================================================================
 # Routes
 #==============================================================================
-@app.route('/')
-def route_index():
-	# 'heartbeat'
-	return jsonify('boop!')
-
 @app.route('/sculptures', methods=['GET', 'POST'])
 def all_sculptures():
 	res = {
@@ -633,6 +639,13 @@ def sculpture_get_pdf(sculpture_id):
 			# })
 
 	return jsonify(False)
+
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def catch_all(path):
+	# if app.debug:
+	# 	return requests.get('http://localhost:8080/{}'.format(path)).text
+	return render_template('index.html')
 
 
 
