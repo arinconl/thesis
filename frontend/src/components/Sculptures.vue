@@ -145,7 +145,7 @@
 import axios from 'axios'
 import Alert from './Alert'
 const fileDownload = require('js-file-download')
-var serverHost = 'http://192.168.99.100:5000'
+const serverHost = process.env.ROOT_API
 
 export default {
   data () {
@@ -186,6 +186,8 @@ export default {
       axios.get(path)
         .then((res) => {
           console.log('contact with petal')
+          console.log(res)
+          console.log('---')
         })
         .catch((error) => {
           // eslint-disable-next-line
@@ -199,6 +201,8 @@ export default {
       axios.get(path)
         .then((res) => {
           console.log('contact with frequencies')
+          console.log(res)
+          console.log('---')
         })
         .catch((error) => {
           // eslint-disable-next-line
