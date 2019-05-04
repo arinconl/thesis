@@ -80,10 +80,8 @@
         </div>
       </div>
     </div>
-    <b-modal ref="addSculptureModal"
-             id="sculpture-modal"
-             name="Add a new sculpture"
-             hide-footer>
+    <b-modal ref="addSculptureModal" id="sculpture-modal"
+            name="Add a new sculpture" hide-footer>
       <b-form @submit="onSubmit" @reset="onReset" class="w-100">
       <b-form-group id="form-name-group"
                     label="Name:"

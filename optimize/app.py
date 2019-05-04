@@ -644,7 +644,7 @@ def sculpture_get_pdf(sculpture_id):
 @app.route('/<path:path>')
 def catch_all(path):
 	# if app.debug:
-	# 	return requests.get('http://localhost:8080/{}'.format(path)).text
+		# return requests.get('http://localhost:8080/{}'.format(path)).text
 	return render_template('index.html')
 
 
@@ -657,6 +657,6 @@ def catch_all(path):
 # Runtime operations
 #==============================================================================
 if __name__ == '__main__':
-	# ENVIRONMENT_DEBUG = os.environ.get("DEBUG", False)
-	ENVIRONMENT_DEBUG = True
+	ENVIRONMENT_DEBUG = os.environ.get("DEBUG", False)
+	# ENVIRONMENT_DEBUG = True
 	app.run(host='0.0.0.0', port=5000, debug=ENVIRONMENT_DEBUG)
