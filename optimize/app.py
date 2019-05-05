@@ -673,5 +673,5 @@ def catch_all(path):
 #==============================================================================
 if __name__ == '__main__':
 	# ENVIRONMENT_DEBUG = os.environ.get("DEBUG", False)
-	ENVIRONMENT_DEBUG = True
+	# ENVIRONMENT_DEBUG = True
 	app.run(host='0.0.0.0', port=5000, debug=ENVIRONMENT_DEBUG)
