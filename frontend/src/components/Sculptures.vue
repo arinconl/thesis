@@ -32,6 +32,49 @@
             </div>
             <div class="card-body">
               <h4 class="card-title">{{ sculpture.name }}</h4>
+              <h5 class="card-title">Shape</h5>
+              <shapeDisplay
+                :v-if="sculpture.results_store.interp"
+                :chartdata="{
+                  datasets: [
+                    {
+                      label: 'Points',
+                      data: points2tuples(sculpture.simulation_params.c0),
+                      backgroundColor: 'green'
+                    },
+                    {
+                      label: 'Shape',
+                      data: points2tuples(sculpture.results_store.interp),
+                      backgroundColor: 'blue'
+                    }
+                  ]
+                }"
+                :data="{ data: points2tuples(sculpture.simulation_params.c0) }"
+                :options="{
+                  responsive: false,
+                  maintainAspectRatio: true,
+                  scales: {
+                    xAxes: [
+                      {
+                        type: 'linear',
+                        ticks: {
+                          beginAtZero: true
+                        },
+                        position: 'bottom'
+                      }
+                    ],
+                    yAxes: [
+                      {
+                        type: 'linear',
+                        ticks: {
+                          beginAtZero: true
+                        }
+                      }
+                    ]
+                  }
+                }"
+                />
+              <!-- <p class="card-text">{{ points2tuples(sculpture.simulation_params.c0) }}</p> -->
               <h5 class="card-title">Target Frequencies</h5>
               <p class="card-text">Frequencies: {{ sculpture.target_frequencies }}</p>
               <h5 class="card-title">Results</h5>
@@ -107,10 +150,8 @@
         <b-button type="reset" variant="danger">Reset</b-button>
       </b-form>
     </b-modal>
-    <b-modal ref="editSculptureModal"
-             id="sculpture-update-modal"
-             name="Update"
-             hide-footer>
+    <b-modal ref="editSculptureModal" id="sculpture-update-modal"
+            name="Update" hide-footer>
       <b-form @submit="onSubmitUpdate" @reset="onResetUpdate" class="w-100">
       <b-form-group id="form-name-edit-group"
                     label="Name:"
@@ -142,6 +183,7 @@
 <script>
 import axios from 'axios'
 import Alert from './Alert'
+import ShapeVisual from './ShapeVisual'
 const fileDownload = require('js-file-download')
 const serverHost = process.env.ROOT_API
 
@@ -163,7 +205,8 @@ export default {
     }
   },
   components: {
-    alert: Alert
+    alert: Alert,
+    shapeDisplay: ShapeVisual
   },
   methods: {
     getSculptures () {
@@ -184,8 +227,17 @@ export default {
       axios.get(path)
         .then((res) => {
           console.log('contact with petal')
-          console.log(res)
+          // console.log(this.getSculptureByID([res.data.id]))
+          /*
+          let oldV = this.getSculptureByID([res.data.id])['simulation_params']['c0']
+          this.getSculptureByID([res.data.id])['simulation_params']['c0'] = res.data.c0
+          let newV = this.getSculptureByID([res.data.id])['simulation_params']['c0']
+          console.log(oldV)
+          console.log(newV)
+          console.log(oldV === newV)
+          */
           console.log('---')
+          this.getSculptures()
         })
         .catch((error) => {
           // eslint-disable-next-line
@@ -199,8 +251,8 @@ export default {
       axios.get(path)
         .then((res) => {
           console.log('contact with frequencies')
-          console.log(res)
           console.log('---')
+          this.getSculptures()
         })
         .catch((error) => {
           // eslint-disable-next-line
@@ -214,6 +266,8 @@ export default {
       axios.get(path)
         .then((res) => {
           console.log('contact with optimize')
+          console.log('---')
+          this.getSculptures()
         })
         .catch((error) => {
           // eslint-disable-next-line
@@ -243,6 +297,15 @@ export default {
           // eslint-disable-next-line
           console.error(error)
         })
+    },
+    getSculptureByID (sculptureID) {
+      for (let s in this.sculptures) {
+        // eslint-disable-next-line
+        if (this.sculptures[s]['id'] == sculptureID) {
+          return this.sculptures[s]
+        }
+        return -1
+      }
     },
     addSculpture (payload) {
       const path = `${serverHost}/sculptures`
@@ -328,6 +391,16 @@ export default {
     },
     editSculpture (sculpture) {
       this.editForm = sculpture
+    },
+    points2tuples (points) {
+      let res = []
+      for (let ii = 0; ii < points.x.length; ii++) {
+        res.push({
+          x: points.x[ii],
+          y: points.y[ii]
+        })
+      }
+      return res
     }
   },
   created () {

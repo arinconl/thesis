@@ -129,7 +129,9 @@ SCULPTURES = [
 			"variant": "standard",
 			"symmetric": False
 		},
-		'results_store': {}
+		'results_store': {
+			"interp": {"x": [], "y": []}
+		}
 	}
 ]
 
@@ -320,6 +322,7 @@ def one_sculpture(sculpture_id):
 		# Append new copy
 		SCULPTURES.append({
 			'id': sculpture_id,
+			# 'id': uuid.uuid4().hex,
 			'name': (updated_sculpture.get('name') or current_sculpture.get('name')),
 			'target_frequencies': (updated_sculpture.get('target_frequencies') or current_sculpture.get('target_frequencies')),
 			'material_params': (updated_sculpture.get('material_params') or current_sculpture.get('material_params')),
@@ -355,12 +358,17 @@ def sculpture_generate_petal(sculpture_id):
 			'x': [x for x in points[0]], # avoiding ndarray
 			'y': [y for y in points[1]] # avoiding ndarray
 		}
+		output_interp = {
+			'x': [x for x in interpolated_points[0]], # avoiding ndarray
+			'y': [y for y in interpolated_points[1]] # avoiding ndarray
+		}
 
 		# Remove old copy
 		remove_sculpture(sculpture_id)
 		# Append new copy
 		new_sculpture = {
 			'id': sculpture_id,
+			# 'id': uuid.uuid4().hex,
 			'name': current_sculpture.get('name'),
 			'target_frequencies': current_sculpture.get('target_frequencies'),
 			'material_params': current_sculpture.get('material_params'),
@@ -369,9 +377,13 @@ def sculpture_generate_petal(sculpture_id):
 			'results_store': {}
 		}
 		new_sculpture['simulation_params']['c0'] = output_points
+		new_sculpture['results_store']['interp'] = output_interp
 		SCULPTURES.append(new_sculpture)
 
 		res['message'] = 'Sculpture geometry generated!'
+		# res['id'] = sculpture_id
+		# res['c0'] = output_points
+		# res['interp'] = output_interp
 
 	return jsonify(res)
 
@@ -417,6 +429,7 @@ def sculpture_check_current_frequencies(sculpture_id):
 		# Append new copy
 		new_sculpture = {
 			'id': sculpture_id,
+			# 'id': uuid.uuid4().hex,
 			'name': current_sculpture.get('name'),
 			'target_frequencies': current_sculpture.get('target_frequencies'),
 			'material_params': current_sculpture.get('material_params'),
@@ -424,7 +437,8 @@ def sculpture_check_current_frequencies(sculpture_id):
 			'geometry_params': current_sculpture.get('geometry_params'),
 			'results_store': {
 				'fit': res['fitness'],
-				'frequencies': res['frequencies']
+				'frequencies': res['frequencies'],
+				'interp': current_sculpture.get('results_store').get('interp')
 			}
 		}
 		SCULPTURES.append(new_sculpture)
@@ -536,6 +550,7 @@ def sculpture_optimize(sculpture_id):
 		# Append new copy
 		new_sculpture = {
 			'id': sculpture_id,
+			# 'id': uuid.uuid4().hex,
 			'name': current_sculpture.get('name'),
 			'target_frequencies': current_sculpture.get('target_frequencies'),
 			'material_params': current_sculpture.get('material_params'),
@@ -644,7 +659,7 @@ def sculpture_get_pdf(sculpture_id):
 @app.route('/<path:path>')
 def catch_all(path):
 	# if app.debug:
-		# return requests.get('http://localhost:8080/{}'.format(path)).text
+	# 	return requests.get('http://localhost:8080/{}'.format(path)).text
 	return render_template('index.html')
 
 
@@ -657,6 +672,6 @@ def catch_all(path):
 # Runtime operations
 #==============================================================================
 if __name__ == '__main__':
-	ENVIRONMENT_DEBUG = os.environ.get("DEBUG", False)
-	# ENVIRONMENT_DEBUG = True
+	# ENVIRONMENT_DEBUG = os.environ.get("DEBUG", False)
+	ENVIRONMENT_DEBUG = True
 	app.run(host='0.0.0.0', port=5000, debug=ENVIRONMENT_DEBUG)
