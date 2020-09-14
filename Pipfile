@@ -27,7 +27,7 @@ Cycler = "==0.10.0"
 Flask = "==1.0.2"
 Jinja2 = ">=2.10.1"
 MarkupSafe = "==1.1.0"
-Werkzeug = "==0.14.1"
+Werkzeug = "==0.15.3"
 Flask-Cors = "==3.0.4"
 
 [requires]
